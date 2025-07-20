@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Job Seeker Dashboard - JobConnect</title>
+</head>
+<body>
+<h2>Welcome, Job Seeker!</h2>
+
+<h3>Available Jobs</h3>
+<ul>
+    <li th:each="job : ${jobs}">
+        <strong th:text="${job.title}"></strong> |
+        <span th:text="${job.location}"></span><br>
+        <span th:text="${job.description}"></span><br><br>
+    </li>
+</ul>
+
+<br><a href="/logout">Logout</a>
+</body>
+</html>

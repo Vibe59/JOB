@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employer Dashboard - JobConnect</title>
+</head>
+<body>
+<h2>Welcome, Employer!</h2>
+
+<form action="/employer/postJob" method="post" th:object="${job}">
+    <h3>Post a Job</h3>
+    Title: <input type="text" name="title" required><br><br>
+    Description: <textarea name="description" required></textarea><br><br>
+    Location: <input type="text" name="location" required><br><br>
+    <button type="submit">Post Job</button>
+</form>
+
+<hr>
+<h3>Your Posted Jobs</h3>
+<ul>
+    <li th:each="job : ${jobs}">
+        <strong th:text="${job.title}"></strong> |
+        <span th:text="${job.location}"></span><br>
+        <span th:text="${job.description}"></span><br>
+        <form th:action="@{/employer/delete/{id}(id=${job.id})}" method="post">
+            <button type="submit">Delete</button>
+        </form>
+        <br>
+    </li>
+</ul>
+
+<br><a href="/logout">Logout</a>
+</body>
+</html>

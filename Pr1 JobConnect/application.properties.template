@@ -1,0 +1,12 @@
+spring.application.name=jobconnect
+
+# MongoDB (credentials should be in environment variables)
+spring.data.mongodb.uri=${MONGODB_URI}
+spring.data.mongodb.database=jobconnect
+
+# Twilio (do NOT hardcode tokens)
+twilio.account_sid=${TWILIO_ACCOUNT_SID}
+twilio.auth_token=${TWILIO_AUTH_TOKEN}
+twilio.from_number=${TWILIO_FROM_NUMBER}
+
+
