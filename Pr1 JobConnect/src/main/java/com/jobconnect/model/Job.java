@@ -1,5 +1,6 @@
 package com.jobconnect.model;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,9 +9,16 @@ public class Job {
 
     @Id
     private String id;
+
+    @NotBlank(message = "Job title is required")
     private String title;
+
+    @NotBlank(message = "Job description is required")
     private String description;
+
+    @NotBlank(message = "Job location is required")
     private String location;
+
     private String postedBy; // Employer's email or ID
 
     public Job() {}
