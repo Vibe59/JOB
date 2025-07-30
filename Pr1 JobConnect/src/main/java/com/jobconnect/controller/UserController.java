@@ -3,9 +3,11 @@ package com.jobconnect.controller;
 import com.jobconnect.model.User;
 import com.jobconnect.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -26,7 +28,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user, Model model) {
+    public String registerUser(@Valid @ModelAttribute User user,
+                               BindingResult result,
+                               Model model) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+
         if (userService.getUserByEmail(user.getEmail()) != null) {
             model.addAttribute("error", "User already exists!");
             return "register";
