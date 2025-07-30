@@ -7,9 +7,11 @@ import com.jobconnect.service.TwilioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -36,15 +38,20 @@ public class JobController {
 
     @Operation(summary = "Post a new job by employer")
     @PostMapping("/employer/postJob")
-    public String postJob(@ModelAttribute Job job, HttpSession session) {
+    public String postJob(@Valid @ModelAttribute Job job,
+                          BindingResult result,
+                          HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || !user.getRole().equals("EMPLOYER")) {
             return "redirect:/";
         }
+
+        if (result.hasErrors()) {
+            return "employer-dashboard";
+        }
+
         job.setPostedBy(user.getEmail());
         jobService.postJob(job);
-
-        // Send dummy SMS
         twilioService.sendSms("+911234567890", "New job posted by " + user.getEmail());
 
         return "redirect:/employer/dashboard";
